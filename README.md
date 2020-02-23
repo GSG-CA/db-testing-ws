@@ -122,7 +122,7 @@ Create a tests folder:
 * Create file `test.js` in `tests`.
 
 Then add a script in `package.json` to run your
-tests: `"test": "NODE_ENV=test node tests/test.js | tap-spec"` When you want to run your
+tests: `"test": "NODE_ENV=test jest"` When you want to run your
 tests, run `npm test` in your terminal.
 
 ### 4. Turn the db build script into a reusable function
@@ -156,23 +156,21 @@ module.exports = { dbBuild };
 
 ### 5. Write tests!
 
-* In your `tests.js` require tape, `dbBuild` function and queries that you are
+* In your `tests.js` require the connection, `dbBuild` function and queries that you are
   going to test:
 
 ```js
-const tape = require("tape");
-
+const connection = require('../server/database/config/connection.js');
 const { dbBuild } = require("../server/database/config/build");
 const { getData } = require("../server/database/queries/getData");
 const { postData } = require("../server/database/queries/postData");
 ```
 
-* Check that tape is working by running this test:
+* Check that jest is working by running this test:
 
 ```js
-tape("tape is working", t => {
-  t.equals(1, 1, "one equals one");
-  t.end();
+test("jest is working", () => {
+  expect(1).toBe(1);
 });
 ```
 
@@ -180,22 +178,23 @@ tape("tape is working", t => {
   have to restart the test database by calling `dbBuild` function. Now you should write a test for `getData()` function that exists in `queries/getData.js`
 
 ```js
-tape("test getData query", t => {
+test("test getData query", () => {
   dbBuild()
     .then()
-    .catch();
+    .catch()
+    .finally();
 });
 
 ```
 
-* add on the end of the file, under all tests
+<!-- * add on the end of the file, under all tests
   ```js
   tape.onFinish(() => process.exit(0));
   ```
   - this will be the last line of the test file 
     > The onFinish hook will get invoked when ALL tape tests have finished
     > right before tape is about to print the test summary.
-  - try to run your `tests` without this line and notes what will happen!
+  - try to run your `tests` without this line and notes what will happen! -->
    
 * Write a test for `postData` query .
 
