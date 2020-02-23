@@ -46,10 +46,10 @@ Set up your test database:
    This workshop is based on the
    [pg-workshop](https://github.com/ali-7/pg-workshop) we've just
    completed. That's why we assume that you've already set up your local
-   database. Create `config.env` and copy the database url from
+   database. Create `.env` and copy the database url from
    [pg-workshop](https://github.com/ali-7/pg-workshop) in it.
 
-* Now we have to set up a test database and add its url to `config.env`.
+* Now we have to set up a test database and add its url to `.env`.
 
   _Follow these steps if you have doubts how to set up a database:_
 
@@ -67,7 +67,7 @@ ALTER DATABASE [db_name] OWNER TO [user_name];
 
 ___________________________________________________________________________________
 
-Now you can set the test database url in your `config.env` as follows (setting the
+Now you can set the test database url in your `.env` as follows (setting the
 values in square brackets to the values you defined in the steps above):
 
 `TEST_DB_URL = postgres://[user_name]:[password]@localhost:5432/[db_name]`
@@ -78,7 +78,7 @@ values in square brackets to the values you defined in the steps above):
   test database with data: `\i [full_path_to_build.sql]` (To easily copy a
   file's full path right click on it in atom and click on "Copy Full Path")
 
-* Your `config.env` will now contain:
+* Your `.env` will now contain:
   ```
   DB_URL = postgres://[user_name]:[password]@localhost:5432/[db_name]
   TEST_DB_URL = postgres://[test_db_user_name]:[test_db_password]@localhost:5432/[test_db_name]
