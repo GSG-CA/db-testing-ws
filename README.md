@@ -46,10 +46,10 @@ Set up your test database:
    This workshop is based on the
    [pg-workshop](https://github.com/ali-7/pg-workshop) we've just
    completed. That's why we assume that you've already set up your local
-   database. Create `config.env` and copy the database url from
+   database. Create `.env` and copy the database url from
    [pg-workshop](https://github.com/ali-7/pg-workshop) in it.
 
-* Now we have to set up a test database and add its url to `config.env`.
+* Now we have to set up a test database and add its url to `.env`.
 
   _Follow these steps if you have doubts how to set up a database:_
 
@@ -67,7 +67,7 @@ ALTER DATABASE [db_name] OWNER TO [user_name];
 
 ___________________________________________________________________________________
 
-Now you can set the test database url in your `config.env` as follows (setting the
+Now you can set the test database url in your `.env` as follows (setting the
 values in square brackets to the values you defined in the steps above):
 
 `TEST_DB_URL = postgres://[user_name]:[password]@localhost:5432/[db_name]`
@@ -78,7 +78,7 @@ values in square brackets to the values you defined in the steps above):
   test database with data: `\i [full_path_to_build.sql]` (To easily copy a
   file's full path right click on it in atom and click on "Copy Full Path")
 
-* Your `config.env` will now contain:
+* Your `.env` will now contain:
   ```
   DB_URL = postgres://[user_name]:[password]@localhost:5432/[db_name]
   TEST_DB_URL = postgres://[test_db_user_name]:[test_db_password]@localhost:5432/[test_db_name]
@@ -122,7 +122,7 @@ Create a tests folder:
 * Create file `test.js` in `tests`.
 
 Then add a script in `package.json` to run your
-tests: `"test": "NODE_ENV=test node tests/test.js | tap-spec"` When you want to run your
+tests: `"test": "NODE_ENV=test jest"` When you want to run your
 tests, run `npm test` in your terminal.
 
 ### 4. Turn the db build script into a reusable function
@@ -156,23 +156,21 @@ module.exports = { dbBuild };
 
 ### 5. Write tests!
 
-* In your `tests.js` require tape, `dbBuild` function and queries that you are
+* In your `tests.js` require the connection, `dbBuild` function and queries that you are
   going to test:
 
 ```js
-const tape = require("tape");
-
+const connection = require('../server/database/config/connection.js');
 const { dbBuild } = require("../server/database/config/build");
 const { getData } = require("../server/database/queries/getData");
 const { postData } = require("../server/database/queries/postData");
 ```
 
-* Check that tape is working by running this test:
+* Check that jest is working by running this test:
 
 ```js
-tape("tape is working", t => {
-  t.equals(1, 1, "one equals one");
-  t.end();
+test("jest is working", () => {
+  expect(1).toBe(1);
 });
 ```
 
@@ -180,22 +178,31 @@ tape("tape is working", t => {
   have to restart the test database by calling `dbBuild` function. Now you should write a test for `getData()` function that exists in `queries/getData.js`
 
 ```js
-tape("test getData query", t => {
-  dbBuild()
+test("test getData query", () => {
+  query()
     .then()
-    .catch();
+    .catch()
 });
 
 ```
-
-* add on the end of the file, under all tests
+* you need to use [jest global functions](https://jestjs.io/docs/en/setup-teardown)  to run things before and after the tests
+  add these 
+  ```js
+  beforeAll(()=>{
+    return buildDB();
+  });
+  afterAll(()=>{
+    return connection.end();
+  });
+  ```
+<!-- * add on the end of the file, under all tests
   ```js
   tape.onFinish(() => process.exit(0));
   ```
   - this will be the last line of the test file 
     > The onFinish hook will get invoked when ALL tape tests have finished
     > right before tape is about to print the test summary.
-  - try to run your `tests` without this line and notes what will happen!
+  - try to run your `tests` without this line and notes what will happen! -->
    
 * Write a test for `postData` query .
 
