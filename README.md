@@ -179,14 +179,22 @@ test("jest is working", () => {
 
 ```js
 test("test getData query", () => {
-  dbBuild()
+  query()
     .then()
     .catch()
-    .finally();
 });
 
 ```
-
+* you need to use [jest global functions](https://jestjs.io/docs/en/setup-teardown)  to run things before and after the tests
+  add these 
+  ```js
+  beforeAll(()=>{
+    return buildDB();
+  });
+  afterAll(()=>{
+    return connection.end();
+  });
+  ```
 <!-- * add on the end of the file, under all tests
   ```js
   tape.onFinish(() => process.exit(0));
