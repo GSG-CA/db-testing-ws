@@ -44,10 +44,10 @@ We are going to start by creating a test database for us to run our tests on.
 Set up your test database:
 
    This workshop is based on the
-   [pg-workshop](https://github.com/ali-7/pg-workshop) we've just
+   [pg-workshop](https://github.com/GSG-CA/pg-workshop) we've just
    completed. That's why we assume that you've already set up your local
    database. Create `.env` and copy the database url from
-   [pg-workshop](https://github.com/ali-7/pg-workshop) in it.
+   [pg-workshop](https://github.com/GSG-CA/pg-workshop) in it.
 
 * Now we have to set up a test database and add its url to `.env`.
 
